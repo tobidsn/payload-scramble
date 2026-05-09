@@ -46,7 +46,7 @@ const stoplight =
     <elements-api
       apiDescriptionUrl="${fullSpecUrl}"
       router="${router}"
-      layout="${layout}" />
+      layout="${layout}"></elements-api>
   </body>
 </html>`
 
