@@ -20,11 +20,11 @@
     "ci": "biome ci",
     "lint": "biome check",
     "lint:fix": "biome check --write",
-    "clean": "rimraf dist && rimraf dev/yarn.lock",
-    "prepublishOnly": "yarn build",
+    "clean": "rimraf dist",
+    "prepublishOnly": "pnpm build",
     "dev": "payload run ./dev/server.ts",
-    "dev:generate-importmap": "yarn dev:payload generate:importmap",
-    "dev:generate-types": "yarn dev:payload generate:types",
+    "dev:generate-importmap": "pnpm dev:payload generate:importmap",
+    "dev:generate-types": "pnpm dev:payload generate:types",
     "dev:payload": "cross-env PAYLOAD_CONFIG_PATH=./dev/payload.config.ts TSX_TSCONFIG_PATH=./dev/tsconfig.json payload",
     "test": "vitest run"
   },
@@ -44,6 +44,7 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "^2.2.2",
+    "@types/json-schema": "^7.0.15",
     "@payloadcms/db-mongodb": "^3.53.0",
     "@payloadcms/next": "^3.53.0",
     "@payloadcms/richtext-lexical": "^3.53.0",
@@ -54,14 +55,14 @@
     "git-cliff": "^2.10.0",
     "graphql": "^16.11.0",
     "mongodb-memory-server": "^10.2.0",
+    "mongoose": "^8.15.1",
     "next": "^15.5.0",
     "open": "^10.2.0",
     "payload": "^3.53.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4",
-    "webpack": "^5.101.3"
+    "vitest": "^3.2.4"
   },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "pnpm@9.15.0"
 }

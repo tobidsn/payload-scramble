@@ -4,4 +4,4 @@ import redoc from './redocPlugin.js'
 import scalar from './scalarPlugin.js'
 import swaggerUI from './swaggerUIPlugin.js'
 
-export { openapi, swaggerUI, rapidoc, redoc, scalar }
+export { openapi, rapidoc, redoc, scalar, swaggerUI }

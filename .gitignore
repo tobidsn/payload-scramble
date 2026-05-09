@@ -250,3 +250,5 @@ Session.vim
 .nvim.lua
 .envrc
 mise.toml
+.pnpm-store/
+pnpm-debug.log*
