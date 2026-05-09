@@ -86,6 +86,14 @@ openapi({
 
 The OpenAPI spec is served at `/api/openapi.json` by default. With the `stoplight` plugin, the docs UI is at `/docs`. Both paths are configurable.
 
+## For AI coding agents (Claude Code, Cursor, Copilot…)
+
+If you're using an AI assistant to add this plugin to a Payload project, see [`AGENTS.md`](./AGENTS.md) for an agent-friendly install + integration guide: minimal `buildConfig` snippet, the only two public exports (`openapi`, `stoplight`), common pitfalls, and a one-line install verification.
+
+Quick install via Claude Code:
+
+> "Install `payload-scramble` and wire up the `openapi` and `stoplight` plugins in my Payload config. Read `AGENTS.md` from the repo for the integration steps."
+
 ## Credits
 
 Forked from [`janbuchar/payload-oapi`](https://github.com/janbuchar/payload-oapi). The OpenAPI generation core is the original author's work; this fork narrows the documentation UI to Stoplight Elements and renames the package. Original MIT license preserved.
