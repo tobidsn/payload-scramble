@@ -1,85 +1,76 @@
-# Payload OpenAPI Plugin
+# payload-scramble
 
-[![npm version](https://badge.fury.io/js/payload-oapi.svg)](https://www.npmjs.com/package/payload-oapi)
+[![npm version](https://badge.fury.io/js/payload-scramble.svg)](https://www.npmjs.com/package/payload-scramble)
 
-Autogenerate an OpenAPI specification from your Payload CMS instance and use it for documentation or to generate client SDKs.
+Autogenerate an OpenAPI specification from your [Payload CMS](https://payloadcms.com) instance and serve interactive documentation via [Stoplight Elements](https://stoplight.io/open-source/elements).
 
-# Roadmap
+## Features
 
-- [x] Complete description of collection CRUD endpoints
-- [x] Complete description of globals CRUD endpoints
-- [x] Integrated Swagger UI and Rapidoc
-- [x] Authentication endpoints and specification
-- [x] Preferences endpoints
-- [x] Support Payload CMS 3.x
-- [x] Support generating both OpenAPI 3.0 and 3.1
-- [x] Collection and global filtering
-- [ ] Custom endpoints
+- Complete OpenAPI 3.0 / 3.1 spec generation for collection and global CRUD endpoints
+- Authentication and preferences endpoints included
+- Filterable: include/exclude collections and globals, hide internal `payload-*` collections
+- Single bundled documentation UI: Stoplight Elements
 
-# Installation
+## Installation
 
-You can install the plugin using your preferred package manager:
+```bash
+pnpm add payload-scramble
+```
 
-- `pnpm add payload-oapi`
-- `npm install payload-oapi`
-- `yarn add payload-oapi`
+(npm and yarn also work — the published package is installer-agnostic.)
 
-# Setup
+## Setup
 
-## 1. Add the OpenAPI core plugin
+### 1. Add the OpenAPI core plugin
 
-To add the OpenAPI specification endpoint to your Payload app, simply import the `openapi` plugin and add it to your payload configuration:
-
-```typescript
-import { openapi } from 'payload-oapi'
+```ts
+import { openapi } from 'payload-scramble'
 
 buildConfig({
   plugins: [
-    openapi({ openapiVersion: '3.0', metadata: { title: 'Dev API', version: '0.0.1' } }),
+    openapi({
+      openapiVersion: '3.0',
+      metadata: { title: 'My API', version: '1.0.0' },
+    }),
   ],
   // ...
 })
 ```
 
-## 2. Add a documentation UI plugin (optional)
+### 2. Add the Stoplight Elements documentation UI
 
-To provide a user interface for your API documentation, you can add one of the following plugins:
+```ts
+import { openapi, stoplight } from 'payload-scramble'
 
-- [`scalar`](https://github.com/scalar/scalar)
-- [`swaggerUI`](https://swagger.io/tools/swagger-ui/)
-- [`rapidoc`](https://mrin9.github.io/RapiDoc/)
-- [`redoc`](https://github.com/Redocly/redoc)
-
-Example usage:
-
-```typescript
-import { openapi, scalar, swaggerUI, rapidoc, redoc } from 'payload-oapi'
-
-// Choose one documentation UI plugins as needed
 buildConfig({
   plugins: [
-    openapi(/* ... */),
-    // Uncomment the UI you want to use:
-    scalar({ /* ...options */ }),
-    // swaggerUI({ /* ...options */ }),
-    // rapidoc({ /* ...options */ }),
-    // redoc({ /* ...options */ }),
+    openapi({ openapiVersion: '3.0', metadata: { title: 'My API', version: '1.0.0' } }),
+    stoplight({ docsUrl: '/docs' }),
   ],
   // ...
 })
 ```
 
-## 3. Filter collections and globals (optional)
+#### `stoplight` options
 
-Control which collections and globals appear in the OpenAPI spec using the `filters` option:
+| Option         | Type                              | Default               | Description                                       |
+|----------------|-----------------------------------|-----------------------|---------------------------------------------------|
+| `specEndpoint` | `string`                          | `'/api/openapi.json'` | Where the OpenAPI JSON spec is served             |
+| `docsUrl`      | `string`                          | `'/docs'`             | Path the documentation UI is mounted on           |
+| `enabled`      | `boolean`                         | `true`                | Set `false` to disable the plugin entirely        |
+| `layout`       | `'sidebar' \| 'stacked'`          | `'sidebar'`           | Stoplight Elements layout mode                    |
+| `router`       | `'hash' \| 'memory'`              | `'hash'`              | Stoplight Elements router (hash is CDN-safe)      |
+| `title`        | `string`                          | `'API Docs'`          | HTML `<title>` for the documentation page         |
+
+### 3. Filter collections and globals (optional)
+
+Use `filters` on the `openapi` plugin:
 
 - `includeCollections` / `excludeCollections` — filter collections by slug
 - `includeGlobals` / `excludeGlobals` — filter globals by slug
 - `hideInternalCollections` — exclude `payload-*` collections
 
-Example:
-
-```typescript
+```ts
 openapi({
   openapiVersion: '3.0',
   metadata: { title: 'Dev API', version: '0.0.1' },
@@ -91,7 +82,14 @@ openapi({
 })
 ```
 
-# Usage
+## Usage
 
-Unless you configured it otherwise, your spec will be accessible via <https://your-payload.com/api/openapi.json>. If you
-added a documentation UI, that will be accessible via <https://your-payload.com/api/docs> (this is also configurable).
+The OpenAPI spec is served at `/api/openapi.json` by default. With the `stoplight` plugin, the docs UI is at `/docs`. Both paths are configurable.
+
+## Credits
+
+Forked from [`janbuchar/payload-oapi`](https://github.com/janbuchar/payload-oapi). The OpenAPI generation core is the original author's work; this fork narrows the documentation UI to Stoplight Elements and renames the package. Original MIT license preserved.
+
+## License
+
+MIT

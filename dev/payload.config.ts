@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { openapi, rapidoc, redoc, swaggerUI } from '@payload-oapi'
+import { openapi, stoplight } from '@payload-scramble'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
@@ -50,9 +50,7 @@ export default buildConfig({
   },
   plugins: [
     openapi({ openapiVersion: '3.0', metadata: { title: 'Dev API', version: '0.0.1' } }),
-    swaggerUI({ docsUrl: '/swagger-ui' }),
-    redoc({ docsUrl: '/redoc' }),
-    rapidoc({ docsUrl: '/rapidoc' }),
+    stoplight({ docsUrl: '/docs' }),
   ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,

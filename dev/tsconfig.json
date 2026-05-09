@@ -17,7 +17,7 @@
     "baseUrl": "./",
     "paths": {
       "@payload-config": ["./payload.config.ts"],
-      "@payload-oapi": ["../src/index.ts"]
+      "@payload-scramble": ["../src/index.ts"]
     },
     "noEmit": true,
     "emitDeclarationOnly": false,

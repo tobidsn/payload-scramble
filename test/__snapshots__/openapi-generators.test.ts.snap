@@ -4,6 +4,87 @@ exports[`openapi generators > converts empty config correctly 1`] = `
 {
   "components": {
     "requestBodies": {
+      "PayloadKvPatchRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
+      "PayloadKvRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "key",
+                "data",
+              ],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
       "PayloadLockedDocumentPatchRequestBody": {
         "content": {
           "application/json": {
@@ -202,6 +283,12 @@ exports[`openapi generators > converts empty config correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -248,6 +335,12 @@ exports[`openapi generators > converts empty config correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -282,6 +375,7 @@ exports[`openapi generators > converts empty config correctly 1`] = `
               },
               "required": [
                 "email",
+                "collection",
               ],
               "title": "User",
               "type": "object",
@@ -292,6 +386,53 @@ exports[`openapi generators > converts empty config correctly 1`] = `
       },
     },
     "responses": {
+      "MutatePayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "doc": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKv",
+                    },
+                    {
+                      "properties": {
+                        "createdAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "string",
+                        },
+                        "updatedAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "message",
+                "doc",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv object",
+      },
       "MutatePayloadLockedDocumentResponse": {
         "content": {
           "application/json": {
@@ -479,6 +620,79 @@ exports[`openapi generators > converts empty config correctly 1`] = `
           },
         },
         "description": "users object",
+      },
+      "PayloadKvListResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "docs": {
+                  "items": {
+                    "$ref": "#/components/schemas/PayloadKv",
+                  },
+                  "type": "array",
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                },
+                "limit": {
+                  "type": "integer",
+                },
+                "nextPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "page": {
+                  "type": "integer",
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                },
+                "prevPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "totalDocs": {
+                  "type": "integer",
+                },
+                "totalPages": {
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "docs",
+                "totalDocs",
+                "limit",
+                "totalPages",
+                "page",
+                "pagingCounter",
+                "hasPrevPage",
+                "hasNextPage",
+                "prevPage",
+                "nextPage",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "List of Payload Kvs",
+      },
+      "PayloadKvNotFoundResponse": {
+        "content": {},
+        "description": "Payload Kv not found",
+      },
+      "PayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PayloadKv",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "PayloadLockedDocumentListResponse": {
         "content": {
@@ -774,6 +988,124 @@ exports[`openapi generators > converts empty config correctly 1`] = `
       },
     },
     "schemas": {
+      "PayloadKv": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "boolean",
+              },
+            ],
+            "nullable": true,
+          },
+          "id": {
+            "type": "string",
+          },
+          "key": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "key",
+          "data",
+        ],
+        "title": "Payload Kv",
+        "type": "object",
+      },
+      "PayloadKvQueryOperations": {
+        "properties": {
+          "key": {
+            "properties": {
+              "contains": {
+                "type": "string",
+              },
+              "equals": {
+                "type": "string",
+              },
+              "in": {
+                "type": "string",
+              },
+              "like": {
+                "type": "string",
+              },
+              "not_equals": {
+                "type": "string",
+              },
+              "not_in": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "title": "Payload Kv query operations",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsAnd": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "and",
+        ],
+        "title": "Payload Kv query conjunction",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsOr": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "or",
+        ],
+        "title": "Payload Kv query disjunction",
+        "type": "object",
+      },
       "PayloadLockedDocument": {
         "additionalProperties": false,
         "properties": {
@@ -1443,6 +1775,12 @@ exports[`openapi generators > converts empty config correctly 1`] = `
       "Users": {
         "additionalProperties": false,
         "properties": {
+          "collection": {
+            "enum": [
+              "users",
+            ],
+            "type": "string",
+          },
           "createdAt": {
             "type": "string",
           },
@@ -1489,6 +1827,7 @@ exports[`openapi generators > converts empty config correctly 1`] = `
           "updatedAt",
           "createdAt",
           "email",
+          "collection",
         ],
         "title": "users",
         "type": "object",
@@ -1833,6 +2172,228 @@ exports[`openapi generators > converts empty config correctly 1`] = `
   },
   "openapi": "3.0.3",
   "paths": {
+    "/api/payload-kv": {
+      "get": {
+        "operationId": "listPayloadKvs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "fallback-locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "key",
+                "-key",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "where",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                },
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                    },
+                  ],
+                },
+              ],
+            },
+            "style": "deepObject",
+          },
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvListResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Retrieve a list of Payload Kvs",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "post": {
+        "operationId": "createPayloadKv",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvRequestBody",
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Create a new Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
+    "/api/payload-kv/{id}": {
+      "delete": {
+        "operationId": "deletePayloadKv",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Delete a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "get": {
+        "operationId": "findPayloadKvById",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Find a Payload Kv by ID",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "depth",
+          "schema": {
+            "type": "number",
+          },
+        },
+        {
+          "in": "query",
+          "name": "locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "in": "query",
+          "name": "fallback-locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "description": "ID of the Payload Kv",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "patch": {
+        "operationId": "updatePayloadKv",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvPatchRequestBody",
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Update a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
     "/api/payload-locked-documents": {
       "get": {
         "operationId": "listPayloadLockedDocuments",
@@ -2801,6 +3362,7 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
                                       "properties": {
                                         "type": {
                                           "type": "string",
+                                          "x-tsType": "any",
                                         },
                                         "version": {
                                           "type": "integer",
@@ -2920,6 +3482,7 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
                                       "properties": {
                                         "type": {
                                           "type": "string",
+                                          "x-tsType": "any",
                                         },
                                         "version": {
                                           "type": "integer",
@@ -3001,6 +3564,87 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
           },
         },
         "description": "Page",
+      },
+      "PayloadKvPatchRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
+      "PayloadKvRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "key",
+                "data",
+              ],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
       },
       "PayloadLockedDocumentPatchRequestBody": {
         "content": {
@@ -3200,6 +3844,12 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -3246,6 +3896,12 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -3280,6 +3936,7 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
               },
               "required": [
                 "email",
+                "collection",
               ],
               "title": "User",
               "type": "object",
@@ -3336,6 +3993,53 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
           },
         },
         "description": "Page object",
+      },
+      "MutatePayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "doc": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKv",
+                    },
+                    {
+                      "properties": {
+                        "createdAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "string",
+                        },
+                        "updatedAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "message",
+                "doc",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "MutatePayloadLockedDocumentResponse": {
         "content": {
@@ -3597,6 +4301,79 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
           },
         },
         "description": "Page object",
+      },
+      "PayloadKvListResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "docs": {
+                  "items": {
+                    "$ref": "#/components/schemas/PayloadKv",
+                  },
+                  "type": "array",
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                },
+                "limit": {
+                  "type": "integer",
+                },
+                "nextPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "page": {
+                  "type": "integer",
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                },
+                "prevPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "totalDocs": {
+                  "type": "integer",
+                },
+                "totalPages": {
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "docs",
+                "totalDocs",
+                "limit",
+                "totalPages",
+                "page",
+                "pagingCounter",
+                "hasPrevPage",
+                "hasNextPage",
+                "prevPage",
+                "nextPage",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "List of Payload Kvs",
+      },
+      "PayloadKvNotFoundResponse": {
+        "content": {},
+        "description": "Payload Kv not found",
+      },
+      "PayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PayloadKv",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "PayloadLockedDocumentListResponse": {
         "content": {
@@ -3926,6 +4703,7 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
                                 "properties": {
                                   "type": {
                                     "type": "string",
+                                    "x-tsType": "any",
                                   },
                                   "version": {
                                     "type": "integer",
@@ -4141,6 +4919,124 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
           "or",
         ],
         "title": "Page query disjunction",
+        "type": "object",
+      },
+      "PayloadKv": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "boolean",
+              },
+            ],
+            "nullable": true,
+          },
+          "id": {
+            "type": "string",
+          },
+          "key": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "key",
+          "data",
+        ],
+        "title": "Payload Kv",
+        "type": "object",
+      },
+      "PayloadKvQueryOperations": {
+        "properties": {
+          "key": {
+            "properties": {
+              "contains": {
+                "type": "string",
+              },
+              "equals": {
+                "type": "string",
+              },
+              "in": {
+                "type": "string",
+              },
+              "like": {
+                "type": "string",
+              },
+              "not_equals": {
+                "type": "string",
+              },
+              "not_in": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "title": "Payload Kv query operations",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsAnd": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "and",
+        ],
+        "title": "Payload Kv query conjunction",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsOr": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "or",
+        ],
+        "title": "Payload Kv query disjunction",
         "type": "object",
       },
       "PayloadLockedDocument": {
@@ -4838,6 +5734,12 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
       "Users": {
         "additionalProperties": false,
         "properties": {
+          "collection": {
+            "enum": [
+              "users",
+            ],
+            "type": "string",
+          },
           "createdAt": {
             "type": "string",
           },
@@ -4884,6 +5786,7 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
           "updatedAt",
           "createdAt",
           "email",
+          "collection",
         ],
         "title": "users",
         "type": "object",
@@ -5449,6 +6352,228 @@ exports[`openapi generators > handles block editor fields correctly 1`] = `
         "summary": "Update a Page",
         "tags": [
           "Pages",
+        ],
+      },
+    },
+    "/api/payload-kv": {
+      "get": {
+        "operationId": "listPayloadKvs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "fallback-locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "key",
+                "-key",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "where",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                },
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                    },
+                  ],
+                },
+              ],
+            },
+            "style": "deepObject",
+          },
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvListResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Retrieve a list of Payload Kvs",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "post": {
+        "operationId": "createPayloadKv",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvRequestBody",
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Create a new Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
+    "/api/payload-kv/{id}": {
+      "delete": {
+        "operationId": "deletePayloadKv",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Delete a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "get": {
+        "operationId": "findPayloadKvById",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Find a Payload Kv by ID",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "depth",
+          "schema": {
+            "type": "number",
+          },
+        },
+        {
+          "in": "query",
+          "name": "locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "in": "query",
+          "name": "fallback-locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "description": "ID of the Payload Kv",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "patch": {
+        "operationId": "updatePayloadKv",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvPatchRequestBody",
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Update a Payload Kv",
+        "tags": [
+          "Payload Kvs",
         ],
       },
     },
@@ -6427,6 +7552,87 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
         },
         "description": "Event",
       },
+      "PayloadKvPatchRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
+      "PayloadKvRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "key",
+                "data",
+              ],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
       "PayloadLockedDocumentPatchRequestBody": {
         "content": {
           "application/json": {
@@ -6625,6 +7831,12 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -6671,6 +7883,12 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -6705,6 +7923,7 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
               },
               "required": [
                 "email",
+                "collection",
               ],
               "title": "User",
               "type": "object",
@@ -6834,6 +8053,53 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
           },
         },
         "description": "Event object",
+      },
+      "MutatePayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "doc": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKv",
+                    },
+                    {
+                      "properties": {
+                        "createdAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "string",
+                        },
+                        "updatedAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "message",
+                "doc",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "MutatePayloadLockedDocumentResponse": {
         "content": {
@@ -7022,6 +8288,79 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
           },
         },
         "description": "users object",
+      },
+      "PayloadKvListResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "docs": {
+                  "items": {
+                    "$ref": "#/components/schemas/PayloadKv",
+                  },
+                  "type": "array",
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                },
+                "limit": {
+                  "type": "integer",
+                },
+                "nextPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "page": {
+                  "type": "integer",
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                },
+                "prevPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "totalDocs": {
+                  "type": "integer",
+                },
+                "totalPages": {
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "docs",
+                "totalDocs",
+                "limit",
+                "totalPages",
+                "page",
+                "pagingCounter",
+                "hasPrevPage",
+                "hasNextPage",
+                "prevPage",
+                "nextPage",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "List of Payload Kvs",
+      },
+      "PayloadKvNotFoundResponse": {
+        "content": {},
+        "description": "Payload Kv not found",
+      },
+      "PayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PayloadKv",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "PayloadLockedDocumentListResponse": {
         "content": {
@@ -7619,6 +8958,124 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
           "or",
         ],
         "title": "Event query disjunction",
+        "type": "object",
+      },
+      "PayloadKv": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "boolean",
+              },
+            ],
+            "nullable": true,
+          },
+          "id": {
+            "type": "string",
+          },
+          "key": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "key",
+          "data",
+        ],
+        "title": "Payload Kv",
+        "type": "object",
+      },
+      "PayloadKvQueryOperations": {
+        "properties": {
+          "key": {
+            "properties": {
+              "contains": {
+                "type": "string",
+              },
+              "equals": {
+                "type": "string",
+              },
+              "in": {
+                "type": "string",
+              },
+              "like": {
+                "type": "string",
+              },
+              "not_equals": {
+                "type": "string",
+              },
+              "not_in": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "title": "Payload Kv query operations",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsAnd": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "and",
+        ],
+        "title": "Payload Kv query conjunction",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsOr": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "or",
+        ],
+        "title": "Payload Kv query disjunction",
         "type": "object",
       },
       "PayloadLockedDocument": {
@@ -8316,6 +9773,12 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
       "Users": {
         "additionalProperties": false,
         "properties": {
+          "collection": {
+            "enum": [
+              "users",
+            ],
+            "type": "string",
+          },
           "createdAt": {
             "type": "string",
           },
@@ -8362,6 +9825,7 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
           "updatedAt",
           "createdAt",
           "email",
+          "collection",
         ],
         "title": "users",
         "type": "object",
@@ -8929,6 +10393,228 @@ exports[`openapi generators > handles datetime field with timezones correctly 1`
         "summary": "Update a Event",
         "tags": [
           "Events",
+        ],
+      },
+    },
+    "/api/payload-kv": {
+      "get": {
+        "operationId": "listPayloadKvs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "fallback-locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "key",
+                "-key",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "where",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                },
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                    },
+                  ],
+                },
+              ],
+            },
+            "style": "deepObject",
+          },
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvListResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Retrieve a list of Payload Kvs",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "post": {
+        "operationId": "createPayloadKv",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvRequestBody",
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Create a new Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
+    "/api/payload-kv/{id}": {
+      "delete": {
+        "operationId": "deletePayloadKv",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Delete a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "get": {
+        "operationId": "findPayloadKvById",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Find a Payload Kv by ID",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "depth",
+          "schema": {
+            "type": "number",
+          },
+        },
+        {
+          "in": "query",
+          "name": "locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "in": "query",
+          "name": "fallback-locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "description": "ID of the Payload Kv",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "patch": {
+        "operationId": "updatePayloadKv",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvPatchRequestBody",
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Update a Payload Kv",
+        "tags": [
+          "Payload Kvs",
         ],
       },
     },
@@ -9863,6 +11549,87 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
 {
   "components": {
     "requestBodies": {
+      "PayloadKvPatchRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
+      "PayloadKvRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "key",
+                "data",
+              ],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
       "PayloadLockedDocumentPatchRequestBody": {
         "content": {
           "application/json": {
@@ -10061,6 +11828,12 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -10126,6 +11899,12 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -10179,6 +11958,7 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
               },
               "required": [
                 "email",
+                "collection",
               ],
               "title": "User",
               "type": "object",
@@ -10189,6 +11969,53 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
       },
     },
     "responses": {
+      "MutatePayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "doc": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKv",
+                    },
+                    {
+                      "properties": {
+                        "createdAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "string",
+                        },
+                        "updatedAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "message",
+                "doc",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv object",
+      },
       "MutatePayloadLockedDocumentResponse": {
         "content": {
           "application/json": {
@@ -10376,6 +12203,79 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
           },
         },
         "description": "User object",
+      },
+      "PayloadKvListResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "docs": {
+                  "items": {
+                    "$ref": "#/components/schemas/PayloadKv",
+                  },
+                  "type": "array",
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                },
+                "limit": {
+                  "type": "integer",
+                },
+                "nextPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "page": {
+                  "type": "integer",
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                },
+                "prevPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "totalDocs": {
+                  "type": "integer",
+                },
+                "totalPages": {
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "docs",
+                "totalDocs",
+                "limit",
+                "totalPages",
+                "page",
+                "pagingCounter",
+                "hasPrevPage",
+                "hasNextPage",
+                "prevPage",
+                "nextPage",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "List of Payload Kvs",
+      },
+      "PayloadKvNotFoundResponse": {
+        "content": {},
+        "description": "Payload Kv not found",
+      },
+      "PayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PayloadKv",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "PayloadLockedDocumentListResponse": {
         "content": {
@@ -10671,6 +12571,124 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
       },
     },
     "schemas": {
+      "PayloadKv": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "boolean",
+              },
+            ],
+            "nullable": true,
+          },
+          "id": {
+            "type": "string",
+          },
+          "key": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "key",
+          "data",
+        ],
+        "title": "Payload Kv",
+        "type": "object",
+      },
+      "PayloadKvQueryOperations": {
+        "properties": {
+          "key": {
+            "properties": {
+              "contains": {
+                "type": "string",
+              },
+              "equals": {
+                "type": "string",
+              },
+              "in": {
+                "type": "string",
+              },
+              "like": {
+                "type": "string",
+              },
+              "not_equals": {
+                "type": "string",
+              },
+              "not_in": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "title": "Payload Kv query operations",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsAnd": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "and",
+        ],
+        "title": "Payload Kv query conjunction",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsOr": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "or",
+        ],
+        "title": "Payload Kv query disjunction",
+        "type": "object",
+      },
       "PayloadLockedDocument": {
         "additionalProperties": false,
         "properties": {
@@ -11340,6 +13358,12 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
       "User": {
         "additionalProperties": false,
         "properties": {
+          "collection": {
+            "enum": [
+              "users",
+            ],
+            "type": "string",
+          },
           "createdAt": {
             "type": "string",
           },
@@ -11405,6 +13429,7 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
           "updatedAt",
           "createdAt",
           "email",
+          "collection",
         ],
         "title": "User",
         "type": "object",
@@ -11749,6 +13774,228 @@ exports[`openapi generators > handles interfaceName correctly 1`] = `
   },
   "openapi": "3.0.3",
   "paths": {
+    "/api/payload-kv": {
+      "get": {
+        "operationId": "listPayloadKvs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "fallback-locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "key",
+                "-key",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "where",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                },
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                    },
+                  ],
+                },
+              ],
+            },
+            "style": "deepObject",
+          },
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvListResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Retrieve a list of Payload Kvs",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "post": {
+        "operationId": "createPayloadKv",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvRequestBody",
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Create a new Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
+    "/api/payload-kv/{id}": {
+      "delete": {
+        "operationId": "deletePayloadKv",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Delete a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "get": {
+        "operationId": "findPayloadKvById",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Find a Payload Kv by ID",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "depth",
+          "schema": {
+            "type": "number",
+          },
+        },
+        {
+          "in": "query",
+          "name": "locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "in": "query",
+          "name": "fallback-locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "description": "ID of the Payload Kv",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "patch": {
+        "operationId": "updatePayloadKv",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvPatchRequestBody",
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Update a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
     "/api/payload-locked-documents": {
       "get": {
         "operationId": "listPayloadLockedDocuments",
@@ -12680,6 +14927,87 @@ exports[`openapi generators > handles non-default collection 1`] = `
 {
   "components": {
     "requestBodies": {
+      "PayloadKvPatchRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
+      "PayloadKvRequestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                    },
+                    {
+                      "items": {},
+                      "type": "array",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "key": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "key",
+                "data",
+              ],
+              "title": "PayloadKv",
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv",
+      },
       "PayloadLockedDocumentPatchRequestBody": {
         "content": {
           "application/json": {
@@ -12916,6 +15244,12 @@ exports[`openapi generators > handles non-default collection 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -12962,6 +15296,12 @@ exports[`openapi generators > handles non-default collection 1`] = `
             "schema": {
               "additionalProperties": false,
               "properties": {
+                "collection": {
+                  "enum": [
+                    "users",
+                  ],
+                  "type": "string",
+                },
                 "email": {
                   "type": "string",
                 },
@@ -12996,6 +15336,7 @@ exports[`openapi generators > handles non-default collection 1`] = `
               },
               "required": [
                 "email",
+                "collection",
               ],
               "title": "User",
               "type": "object",
@@ -13006,6 +15347,53 @@ exports[`openapi generators > handles non-default collection 1`] = `
       },
     },
     "responses": {
+      "MutatePayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "doc": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKv",
+                    },
+                    {
+                      "properties": {
+                        "createdAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "string",
+                        },
+                        "updatedAt": {
+                          "format": "date-time",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "message",
+                "doc",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "Payload Kv object",
+      },
       "MutatePayloadLockedDocumentResponse": {
         "content": {
           "application/json": {
@@ -13240,6 +15628,79 @@ exports[`openapi generators > handles non-default collection 1`] = `
           },
         },
         "description": "users object",
+      },
+      "PayloadKvListResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "docs": {
+                  "items": {
+                    "$ref": "#/components/schemas/PayloadKv",
+                  },
+                  "type": "array",
+                },
+                "hasNextPage": {
+                  "type": "boolean",
+                },
+                "hasPrevPage": {
+                  "type": "boolean",
+                },
+                "limit": {
+                  "type": "integer",
+                },
+                "nextPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "page": {
+                  "type": "integer",
+                },
+                "pagingCounter": {
+                  "type": "integer",
+                },
+                "prevPage": {
+                  "nullable": true,
+                  "type": "integer",
+                },
+                "totalDocs": {
+                  "type": "integer",
+                },
+                "totalPages": {
+                  "type": "integer",
+                },
+              },
+              "required": [
+                "docs",
+                "totalDocs",
+                "limit",
+                "totalPages",
+                "page",
+                "pagingCounter",
+                "hasPrevPage",
+                "hasNextPage",
+                "prevPage",
+                "nextPage",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "List of Payload Kvs",
+      },
+      "PayloadKvNotFoundResponse": {
+        "content": {},
+        "description": "Payload Kv not found",
+      },
+      "PayloadKvResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PayloadKv",
+            },
+          },
+        },
+        "description": "Payload Kv object",
       },
       "PayloadLockedDocumentListResponse": {
         "content": {
@@ -13608,6 +16069,124 @@ exports[`openapi generators > handles non-default collection 1`] = `
       },
     },
     "schemas": {
+      "PayloadKv": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "boolean",
+              },
+            ],
+            "nullable": true,
+          },
+          "id": {
+            "type": "string",
+          },
+          "key": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "key",
+          "data",
+        ],
+        "title": "Payload Kv",
+        "type": "object",
+      },
+      "PayloadKvQueryOperations": {
+        "properties": {
+          "key": {
+            "properties": {
+              "contains": {
+                "type": "string",
+              },
+              "equals": {
+                "type": "string",
+              },
+              "in": {
+                "type": "string",
+              },
+              "like": {
+                "type": "string",
+              },
+              "not_equals": {
+                "type": "string",
+              },
+              "not_in": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "title": "Payload Kv query operations",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsAnd": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "and",
+        ],
+        "title": "Payload Kv query conjunction",
+        "type": "object",
+      },
+      "PayloadKvQueryOperationsOr": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                },
+                {
+                  "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "required": [
+          "or",
+        ],
+        "title": "Payload Kv query disjunction",
+        "type": "object",
+      },
       "PayloadLockedDocument": {
         "additionalProperties": false,
         "properties": {
@@ -14477,6 +17056,12 @@ exports[`openapi generators > handles non-default collection 1`] = `
       "Users": {
         "additionalProperties": false,
         "properties": {
+          "collection": {
+            "enum": [
+              "users",
+            ],
+            "type": "string",
+          },
           "createdAt": {
             "type": "string",
           },
@@ -14523,6 +17108,7 @@ exports[`openapi generators > handles non-default collection 1`] = `
           "updatedAt",
           "createdAt",
           "email",
+          "collection",
         ],
         "title": "users",
         "type": "object",
@@ -14867,6 +17453,228 @@ exports[`openapi generators > handles non-default collection 1`] = `
   },
   "openapi": "3.0.3",
   "paths": {
+    "/api/payload-kv": {
+      "get": {
+        "operationId": "listPayloadKvs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "fallback-locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "key",
+                "-key",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "where",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                },
+                {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperations",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsAnd",
+                    },
+                    {
+                      "$ref": "#/components/schemas/PayloadKvQueryOperationsOr",
+                    },
+                  ],
+                },
+              ],
+            },
+            "style": "deepObject",
+          },
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvListResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Retrieve a list of Payload Kvs",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "post": {
+        "operationId": "createPayloadKv",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "depth",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvRequestBody",
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Create a new Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
+    "/api/payload-kv/{id}": {
+      "delete": {
+        "operationId": "deletePayloadKv",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Delete a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "get": {
+        "operationId": "findPayloadKvById",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/MutatePayloadKvResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Find a Payload Kv by ID",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "depth",
+          "schema": {
+            "type": "number",
+          },
+        },
+        {
+          "in": "query",
+          "name": "locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "in": "query",
+          "name": "fallback-locale",
+          "schema": {
+            "type": "string",
+          },
+        },
+        {
+          "description": "ID of the Payload Kv",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string",
+          },
+        },
+      ],
+      "patch": {
+        "operationId": "updatePayloadKv",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PayloadKvPatchRequestBody",
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PayloadKvResponse",
+          },
+          "404": {
+            "$ref": "#/components/responses/PayloadKvNotFoundResponse",
+          },
+        },
+        "security": [
+          {
+            "ApiKey": [],
+          },
+        ],
+        "summary": "Update a Payload Kv",
+        "tags": [
+          "Payload Kvs",
+        ],
+      },
+    },
     "/api/payload-locked-documents": {
       "get": {
         "operationId": "listPayloadLockedDocuments",

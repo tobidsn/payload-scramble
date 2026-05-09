@@ -73,6 +73,8 @@ describe('openapi generators', () => {
       new Set([
         '/api/users',
         '/api/users/{id}',
+        '/api/payload-kv',
+        '/api/payload-kv/{id}',
         '/api/payload-locked-documents',
         '/api/payload-locked-documents/{id}',
         '/api/payload-preferences',
@@ -106,6 +108,8 @@ describe('openapi generators', () => {
         '/api/posts/{id}',
         '/api/users',
         '/api/users/{id}',
+        '/api/payload-kv',
+        '/api/payload-kv/{id}',
         '/api/payload-locked-documents',
         '/api/payload-locked-documents/{id}',
         '/api/payload-preferences',
