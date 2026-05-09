@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { openapi, rapidoc, redoc, swaggerUI } from '@payload-oapi'
+import { openapi, rapidoc, redoc, swaggerUI } from '@payload-scramble'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
