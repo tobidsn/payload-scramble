@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { openapi } from '@payload-scramble'
+import { openapi, stoplight } from '@payload-scramble'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
@@ -48,7 +48,10 @@ export default buildConfig({
   onInit: async payload => {
     await seed(payload)
   },
-  plugins: [openapi({ openapiVersion: '3.0', metadata: { title: 'Dev API', version: '0.0.1' } })],
+  plugins: [
+    openapi({ openapiVersion: '3.0', metadata: { title: 'Dev API', version: '0.0.1' } }),
+    stoplight({ docsUrl: '/docs' }),
+  ],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,
   typescript: {
