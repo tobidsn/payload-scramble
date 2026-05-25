@@ -6,6 +6,7 @@ import type {
   Access,
   AccessArgs,
   Collection,
+  Endpoint,
   Field,
   FieldBase,
   PayloadRequest,
@@ -652,6 +653,88 @@ const generateComponents = (
   return { schemas, requestBodies, responses }
 }
 
+type OpenApiOperationMeta = {
+  summary?: string
+  description?: string
+  tags?: string[]
+  operationId?: string
+  parameters?: Array<OpenAPIV3.ParameterObject & OpenAPIV3_1.ParameterObject>
+  requestBody?: OpenAPIV3.RequestBodyObject & OpenAPIV3_1.RequestBodyObject
+  responses?: OpenAPIV3.ResponsesObject & OpenAPIV3_1.ResponsesObject
+  security?: OpenAPIV3.SecurityRequirementObject[]
+  deprecated?: boolean
+}
+
+type EndpointWithOpenapi = Endpoint & { custom: { openapi: OpenApiOperationMeta } }
+
+const hasOpenapiMeta = (ep: Endpoint): ep is EndpointWithOpenapi => {
+  const c = ep.custom as Record<string, unknown> | undefined
+  return !!(c && typeof c === 'object' && c.openapi && typeof c.openapi === 'object')
+}
+
+const toOpenapiPath = (p: string): string => p.replace(/:([A-Za-z0-9_]+)/g, '{$1}')
+
+const buildCustomEndpointOperation = (
+  endpoint: EndpointWithOpenapi,
+): OpenAPIV3.OperationObject & OpenAPIV3_1.OperationObject => {
+  const meta = endpoint.custom.openapi
+  const op: OpenAPIV3.OperationObject & OpenAPIV3_1.OperationObject = {
+    summary: meta.summary || `${endpoint.method.toUpperCase()} ${endpoint.path}`,
+    responses: meta.responses || { default: { description: 'No description' } },
+  }
+  if (meta.description !== undefined) op.description = meta.description
+  if (meta.tags) op.tags = meta.tags
+  if (meta.operationId) op.operationId = meta.operationId
+  if (meta.parameters) op.parameters = meta.parameters
+  if (meta.requestBody) op.requestBody = meta.requestBody
+  if (meta.security !== undefined) op.security = meta.security
+  if (meta.deprecated) op.deprecated = meta.deprecated
+  return op
+}
+
+const collectCustomEndpoints = (
+  req: Pick<PayloadRequest, 'payload'>,
+  collections: Collection[],
+): EndpointWithOpenapi[] => {
+  const result: EndpointWithOpenapi[] = []
+  const apiPrefix = req.payload.config.routes?.api || '/api'
+  const topLevelRaw = req.payload.config.endpoints as Endpoint[] | false | undefined
+  const topLevel = Array.isArray(topLevelRaw) ? topLevelRaw : []
+  for (const ep of topLevel) {
+    if (!hasOpenapiMeta(ep)) continue
+    if (typeof ep.path !== 'string' || typeof ep.method !== 'string') continue
+    const subpath = ep.path.startsWith('/') ? ep.path : `/${ep.path}`
+    result.push({ ...ep, path: `${apiPrefix}${toOpenapiPath(subpath)}` })
+  }
+  for (const c of collections) {
+    const cesRaw = c.config.endpoints as Endpoint[] | false | undefined
+    const ces = Array.isArray(cesRaw) ? cesRaw : []
+    const slug = c.config.slug
+    for (const ep of ces) {
+      if (!hasOpenapiMeta(ep)) continue
+      if (typeof ep.path !== 'string' || typeof ep.method !== 'string') continue
+      const subpath = ep.path.startsWith('/') ? ep.path : `/${ep.path}`
+      result.push({ ...ep, path: `${apiPrefix}/${slug}${toOpenapiPath(subpath)}` })
+    }
+  }
+  return result
+}
+
+const buildCustomEndpointsPaths = (
+  req: Pick<PayloadRequest, 'payload'>,
+  collections: Collection[],
+): Record<string, Record<string, OpenAPIV3.OperationObject & OpenAPIV3_1.OperationObject>> => {
+  const paths: Record<
+    string,
+    Record<string, OpenAPIV3.OperationObject & OpenAPIV3_1.OperationObject>
+  > = {}
+  for (const ep of collectCustomEndpoints(req, collections)) {
+    if (!paths[ep.path]) paths[ep.path] = {}
+    paths[ep.path][ep.method.toLowerCase()] = buildCustomEndpointOperation(ep)
+  }
+  return paths
+}
+
 export const generateV30Spec = async (
   req: Pick<PayloadRequest, 'payload' | 'protocol' | 'headers'>,
   options: SanitizedPluginOptions,
@@ -672,6 +755,7 @@ export const generateV30Spec = async (
       {},
       ...(await Promise.all(collections.map(generateCollectionOperations))),
       ...(await Promise.all(globals.map(generateGlobalOperations))),
+      buildCustomEndpointsPaths(req, collections),
     ),
     components: {
       securitySchemes: generateSecuritySchemes(options.authEndpoint),
@@ -736,6 +820,7 @@ export const generateV31Spec = async (
       {},
       ...(await Promise.all(collections.map(generateCollectionOperations))),
       ...(await Promise.all(globals.map(generateGlobalOperations))),
+      buildCustomEndpointsPaths(req, collections),
     ),
     components: {
       securitySchemes: generateSecuritySchemes(options.authEndpoint),
